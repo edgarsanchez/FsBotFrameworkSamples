@@ -1,5 +1,5 @@
-# Bot Framework EchoBot Sample in F#
-An F# translation of the Bot Framework EchoBot sample. Just download the contents of the src/MyEchoBot folder. Get into that downloaded folder and type:
+# Bot Framework Samples in F#
+An F# translation of Bot Framework sample templates, right now I've only got the EchoBot sample. Just download the contents of the src/MyEchoBot folder. Get into that downloaded folder and type:
 
     dotnet run
 
