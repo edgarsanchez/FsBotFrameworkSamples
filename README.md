@@ -3,6 +3,7 @@ An F# translation of [Bot Framework](https://dev.botframework.com/) sample templ
 
 * The EchoBot sample at the src/MyEchoBot folder
 * The CoreBot sample at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂)
+  * Configuring this bot is basically putting your LUIS API keys in appsetting.json (more detailed instrucions in the C# sample)
 
 All the examples try to follow the original C# templates as closely as possible, including some quirks in the bot, e.g., CoreBot checks cities when using LUIS yet, it doesn't do that when getting cities as a response to a direct question. On the other hand, this allows you to compare the C# code with the F# code vis a vis.
 
