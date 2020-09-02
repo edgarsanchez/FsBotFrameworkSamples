@@ -36,10 +36,7 @@ type TeamsConversationBot (config: IConfiguration) =
                 ()
             with
             | :? ErrorResponseException as ex ->
-                if isNull ex.Body.Error then
-                    let! _ = turnContext.SendActivityAsync "Couldn't get member data from Teams."
-                    ()
-                elif ex.Body.Error.Code = "MemberNotFoundInConversation" then
+                if ex.Body.Error.Code = "MemberNotFoundInConversation" then
                     let! _ = turnContext.SendActivityAsync "Member not found."
                     ()
                 else
@@ -49,8 +46,7 @@ type TeamsConversationBot (config: IConfiguration) =
     let sendUpdatedCard (turnContext: ITurnContext<IMessageActivity>) (card: HeroCard) cancellationToken =
         card.Title <- "I've been updated"
 
-        let data = JObject.FromObject turnContext.Activity.Value // :?> JObject)
-        printfn "****** data: %A" data
+        let data = JObject.FromObject turnContext.Activity.Value
         let newCount = data.["count"].Value<int> () + 1
         data.["count"] <- JValue (newCount)
         card.Text <- sprintf "Update count - %d" newCount
@@ -64,7 +60,6 @@ type TeamsConversationBot (config: IConfiguration) =
 
         let activity = MessageFactory.Attachment (card.ToAttachment ())
         activity.Id <- turnContext.Activity.ReplyToId
-        printfn "****** Id :%s:" activity.Id
 
         task { return! turnContext.UpdateActivityAsync (activity, cancellationToken) }
 
