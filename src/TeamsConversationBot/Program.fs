@@ -1,4 +1,4 @@
-namespace MyCoreBot
+﻿namespace TeamsConversationBot
 
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
@@ -14,7 +14,7 @@ module Program =
                     .ConfigureLogging(fun logging -> logging.AddDebug().AddConsole () |> ignore)
                     .UseStartup<Startup> () |> ignore )
 
-    [<EntryPoint>]
+    [< EntryPoint >]
     let main args =
         CreateHostBuilder(args).Build().Run ()
 
