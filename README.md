@@ -5,7 +5,8 @@ An F# translation of [Bot Framework](https://dev.botframework.com/) sample templ
 * The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂)
   * Configuring this bot consists basically of putting your LUIS API keys in appsetting.json (more detailed instructions in the C# sample)
 * The **QnAMaker** bot sample at the src/QnABot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/11.qnamaker)
-  * Configuring this bot requires to create a [QnA Maker Service](https://www.qnamaker.ai/), you will find detailed instructions in the README.md file
+  * Configuring this bot requires to create a [QnA Maker Service](https://www.qnamaker.ai/)
+  * Then you will have to enter the created service name, URL, and access key in the appsettings.json file. You will find detailed instructions in the README.md file
 * The **Teams** Conversation bot sample at the src/TeamsConversationBot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/57.teams-conversation-bot)
   * Warning: I have tested this bot only slightly! (but it seems to be working)
   * Configuring this bot requires a good understanding of how bots work inside Teams. This demands working in several places, like so:
