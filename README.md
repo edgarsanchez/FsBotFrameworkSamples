@@ -4,6 +4,10 @@ An F# translation of [Bot Framework](https://dev.botframework.com/) sample templ
 * The EchoBot template at the src/MyEchoBot folder
 * The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂)
   * Configuring this bot consists basically of putting your LUIS API keys in appsetting.json (more detailed instructions in the C# sample)
+* The **Using-Cards** bot sample at the src/CardsBot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/06.using-cards)
+  * This sample shows how a bot can return formatted cards, including audio & video
+  * Go to the src/CardsBot folder and enter `dotnet run`
+  * Open the Bot Framework Emulator and connect to http://localhost:3978/api/messages
 * The **QnAMaker** bot sample at the src/QnABot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/11.qnamaker)
   * Configuring this bot requires to create a [QnA Maker Service](https://www.qnamaker.ai/)
   * Then you will have to enter the created service name, URL, and access key in the appsettings.json file. You will find detailed instructions in the README.md file
