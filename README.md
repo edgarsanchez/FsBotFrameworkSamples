@@ -1,7 +1,7 @@
 # Bot Framework Samples in F#
 An F# translation of [Bot Framework](https://dev.botframework.com/) sample templates and also some of the examples in the [BotBuilder-Samples .NET Core repo](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore), so far we've got:
 
-* The EchoBot template at the src/MyEchoBot folder
+* The EchoBot template at the src/MyEchoBot folder (now using .NET 5)
 * The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂)
   * Configuring this bot consists basically of putting your LUIS API keys in appsetting.json (more detailed instructions in the C# sample)
 * The **Using-Cards** bot sample at the src/CardsBot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/06.using-cards)
@@ -40,10 +40,10 @@ I started with this dotnet core template:
 
     dotnet new webapi -n MyEchoBot -lang F#
 
-Afterward, I manually coded the F# equivalent functions and classes, trying to use functional idioms whenever relevant (but always respecting the general code organization and behavior).
+Afterward, I manually coded the F# equivalent functions and classes, trying to use functional idioms whenever relevant (but respecting the general code organization and behavior).
 
 The sample bots in the BotBuilder repo tend to require specific configurations, please check the README.md file in its respective folder.
 
-I used @rspeele [TaskBuilder.fs](https://github.com/rspeele/TaskBuilder.fs) to emulate quickly and easily C# async methods in F# functions.
+Originally I used @rspeele [TaskBuilder.fs](https://github.com/rspeele/TaskBuilder.fs) to emulate quickly and easily C# async methods in F# functions, but I am now in the process of migrating to [Ply](https://github.com/crowded/ply).
 
 Your comments and feedback are welcomed!
