@@ -1,6 +1,6 @@
 namespace MyCoreBot.Bots
 
-open FSharp.Control.Tasks.V2.ContextInsensitive
+open FSharp.Control.Tasks
 open Microsoft.Bot.Builder
 open Microsoft.Bot.Builder.Dialogs
 open Microsoft.Extensions.Logging
@@ -11,20 +11,21 @@ open Microsoft.Extensions.Logging
 // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
 // and the requirement is that all BotState objects are saved at the end of a turn.
 type DialogBot<'T when 'T :> Dialog> (conversationState: ConversationState, userState: UserState, dialog: 'T, logger: ILogger<DialogBot<'T>>) =
-    inherit ActivityHandler ()
+    inherit ActivityHandler()
 
     // Silly trick to access base.OnContinueDialogAsync from its overriden definition below
-    member private __.BaseOnTurnAsync tc ct = base.OnTurnAsync (tc, ct)
+    member private __.BaseOnTurnAsync tc ct = base.OnTurnAsync(tc, ct)
 
     override __.OnTurnAsync (turnContext, cancellationToken) =
-        upcast task {
+        unitTask {
             do! __.BaseOnTurnAsync turnContext cancellationToken
 
             // Save any state changes that might have occurred during the turn.
-            do! conversationState.SaveChangesAsync (turnContext, false, cancellationToken)
-            do! userState.SaveChangesAsync (turnContext, false, cancellationToken) }
+            do! conversationState.SaveChangesAsync(turnContext, false, cancellationToken)
+            do! userState.SaveChangesAsync(turnContext, false, cancellationToken) 
+        }
 
     override __.OnMessageActivityAsync (turnContext, cancellationToken) =
         logger.LogInformation "Running dialog with Message Activity."
 
-        upcast task { do! dialog.RunAsync (turnContext, conversationState.CreateProperty "DialogState", cancellationToken) }
+        unitTask { do! dialog.RunAsync(turnContext, conversationState.CreateProperty "DialogState", cancellationToken) }

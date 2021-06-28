@@ -1,6 +1,6 @@
 namespace MyCoreBot
 
-open FSharp.Control.Tasks.V2.ContextInsensitive
+open FSharp.Control.Tasks
 open Microsoft.Bot.Builder
 open Microsoft.Bot.Builder.Integration.AspNet.Core
 open Microsoft.Bot.Builder.TraceExtensions
@@ -13,7 +13,7 @@ type AdapterWithErrorHandler(configuration, logger, conversationState: Conversat
     do
         __.OnTurnError <- fun turnContext exn -> 
             // Log any leaked exception from the application.
-            logger.LogError(exn, sprintf "[OnTurnError] unhandled error: %s" exn.Message)
+            logger.LogError(exn, $"[OnTurnError] unhandled error: {exn.Message}")
 
             let errorMessageText = "The bot encountered an error or bug."
             let errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput)
@@ -21,7 +21,7 @@ type AdapterWithErrorHandler(configuration, logger, conversationState: Conversat
             let errorMessageText' = "To continue to run this bot, please fix the bot source code."
             let errorMessage' = MessageFactory.Text(errorMessageText', errorMessageText', InputHints.ExpectingInput)
 
-            upcast task {
+            unitTask {
                 // Send a message to the user
                 let! _ = turnContext.SendActivityAsync errorMessage
                 let! _ = turnContext.SendActivityAsync errorMessage'
@@ -33,7 +33,7 @@ type AdapterWithErrorHandler(configuration, logger, conversationState: Conversat
                         // ConversationState should be thought of as similar to "cookie-state" in a Web pages.
                         do! conversationState.DeleteAsync turnContext
                     with ex ->
-                        logger.LogError (ex, sprintf "Exception caught on attempting to Delete ConversationState: %s" ex.Message)
+                        logger.LogError (ex, $"Exception caught on attempting to Delete ConversationState: {ex.Message}")
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
                 return! turnContext.TraceActivityAsync("OnTurnError Trace", exn.Message, "https://www.botframework.com/schemas/error", "TurnError")

@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>preview</LangVersion>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   
   <ItemGroup>
@@ -13,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="TaskBuilder.fs" />
     <Compile Include="Controllers/BotController.fs" />
     <Compile Include="Bots/DialogBot.fs" />
     <Compile Include="Bots/DialogAndWelcomeBot.fs" />
@@ -30,9 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.13.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.13.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.13.3" />
+    <PackageReference Include="Ply" Version="0.3.1" />
   </ItemGroup>
 </Project>

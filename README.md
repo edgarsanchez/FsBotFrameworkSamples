@@ -2,7 +2,7 @@
 An F# translation of [Bot Framework](https://dev.botframework.com/) sample templates and also some of the examples in the [BotBuilder-Samples .NET Core repo](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore), so far we've got:
 
 * The EchoBot template at the src/MyEchoBot folder (now using .NET 5)
-* The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂)
+* The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂, now using .NET 5)
   * Configuring this bot consists basically of putting your LUIS API keys in appsetting.json (more detailed instructions in the C# sample)
 * The **Using-Cards** bot sample at the src/CardsBot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/06.using-cards)
   * This sample shows how a bot can return formatted cards, including audio & video

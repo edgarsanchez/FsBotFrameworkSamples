@@ -1,6 +1,6 @@
 namespace MyCoreBot.Dialogs
 
-open FSharp.Control.Tasks.V2.ContextInsensitive
+open FSharp.Control.Tasks
 open Microsoft.Bot.Builder
 open Microsoft.Bot.Builder.Dialogs
 open Microsoft.Bot.Schema
@@ -9,7 +9,7 @@ open System.Collections.Generic
 open System.Threading.Tasks
 
 type DateResolverDialog (?id) as __ =
-    inherit CancelAndHelpDialog (match id with Some v -> v | None -> nameof DateResolverDialog)
+    inherit CancelAndHelpDialog(match id with Some v -> v | None -> nameof DateResolverDialog)
 
     let promptMsgText = "When would you like to travel?"
     let repromptMsgText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year."
@@ -17,31 +17,32 @@ type DateResolverDialog (?id) as __ =
     let initialStepAsync (stepContext: WaterfallStepContext) cancellationToken =
         let timex = stepContext.Options :?> string
 
-        let promptMessage = MessageFactory.Text (promptMsgText, promptMsgText, InputHints.ExpectingInput)
-        let repromptMessage = MessageFactory.Text (repromptMsgText, repromptMsgText, InputHints.ExpectingInput)
+        let promptMessage = MessageFactory.Text(promptMsgText, promptMsgText, InputHints.ExpectingInput)
+        let repromptMessage = MessageFactory.Text(repromptMsgText, repromptMsgText, InputHints.ExpectingInput)
 
         task { return!
             if isNull timex then
                 // We were not given any date at all so prompt the user.
-                stepContext.PromptAsync (
+                stepContext.PromptAsync(
                                 nameof DateTimePrompt,
-                                PromptOptions (Prompt = promptMessage, RetryPrompt = repromptMessage),
+                                PromptOptions(Prompt = promptMessage, RetryPrompt = repromptMessage),
                                 cancellationToken )
             // We have a Date we just need to check it is unambiguous.
             elif TimexProperty(timex).Types.Contains Constants.TimexTypes.Definite then
-                let dateTimeResList = List<DateTimeResolution>()
-                dateTimeResList.Add (DateTimeResolution (Timex = timex))
-                stepContext.NextAsync (dateTimeResList, cancellationToken)
+                let dateTimeResList = List()
+                dateTimeResList.Add(DateTimeResolution(Timex = timex))
+                stepContext.NextAsync(dateTimeResList, cancellationToken)
             else
                // This is essentially a "reprompt" of the data we were given up front.
-                stepContext.PromptAsync (nameof DateTimePrompt, PromptOptions (Prompt = repromptMessage), cancellationToken ) }
+                stepContext.PromptAsync(nameof DateTimePrompt, PromptOptions(Prompt = repromptMessage), cancellationToken )
+        }
 
     let finalStepAsync (stepContext: WaterfallStepContext) cancellationToken =
         let timex = (stepContext.Result :?> IList<DateTimeResolution>).[0].Timex
-        task { return! stepContext.EndDialogAsync (timex, cancellationToken) }
+        task { return! stepContext.EndDialogAsync(timex, cancellationToken) }
         
     let dateTimePromptValidator (promptContext: PromptValidatorContext<IList<DateTimeResolution>>) _ =
-        Task.FromResult (
+        Task.FromResult(
             if promptContext.Recognized.Succeeded then
                 // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
                 // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
@@ -53,9 +54,8 @@ type DateResolverDialog (?id) as __ =
                 false )
 
     do
-        __.AddDialog(DateTimePrompt (nameof DateTimePrompt, PromptValidator (dateTimePromptValidator)))
-            .AddDialog(WaterfallDialog (nameof WaterfallDialog,
-                                        [| WaterfallStep (initialStepAsync); WaterfallStep (finalStepAsync) |]))
+        __.AddDialog(DateTimePrompt(nameof DateTimePrompt, PromptValidator(dateTimePromptValidator)))
+            .AddDialog(WaterfallDialog(nameof WaterfallDialog, [| WaterfallStep(initialStepAsync); WaterfallStep(finalStepAsync) |]))
         |> ignore
 
         // The initial child Dialog to run.

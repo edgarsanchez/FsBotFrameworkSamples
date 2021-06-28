@@ -65,7 +65,7 @@ type FlightBooking () =
             let app = JsonConvert.DeserializeObject<FlightBooking>(
                         JsonConvert.SerializeObject (
                             result, 
-                            JsonSerializerSettings (NullValueHandling = NullValueHandling.Ignore) ) )
+                            JsonSerializerSettings(NullValueHandling = NullValueHandling.Ignore) ) )
             __.Text <- app.Text
             __.AlteredText <- app.AlteredText
             __.Intents <- app.Intents
@@ -78,7 +78,7 @@ type FlightBooking () =
         if isNull data then
             null
         else
-            match data.FirstOrDefault () with
+            match data.FirstOrDefault() with
             | null -> null
             | first -> extract first
 
