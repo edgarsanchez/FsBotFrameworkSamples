@@ -1,8 +1,8 @@
 # Bot Framework Samples in F#
-An F# translation of [Bot Framework](https://dev.botframework.com/) sample templates and also some of the examples in the [BotBuilder-Samples .NET Core repo](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore), so far we've got:
+An F# 5 translation of [Bot Framework](https://dev.botframework.com/) sample templates and also some of the examples in the [BotBuilder-Samples .NET Core repo](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore), so far we've got:
 
-* The EchoBot template at the src/MyEchoBot folder (now using .NET 5)
-* The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂, now using .NET 5)
+* The EchoBot template at the src/MyEchoBot folder
+* The CoreBot template at the src/MyCoreBot folder (I haven't thoroughly tested this sample yet, but it seems to be mostly working 🤞🏽🙂)
   * Configuring this bot consists basically of putting your LUIS API keys in appsetting.json (more detailed instructions in the C# sample)
 * The **Using-Cards** bot sample at the src/CardsBot folder. The C# original is [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/06.using-cards)
   * This sample shows how a bot can return formatted cards, including audio & video
@@ -28,7 +28,7 @@ An F# translation of [Bot Framework](https://dev.botframework.com/) sample templ
       *  Create a Teams app with the bot's manifest.zip file
       *  You will find the detailed steps on the README.md file of the [original C# example](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/51.teams-messaging-extensions-action)
   
-The sample template translations try to follow the original C# templates as closely as possible, including some quirks in the bot, e.g., CoreBot checks cities when using LUIS yet, but it doesn't do that when getting towns as a response to a direct question. On the other hand, this allows you to compare the C# code with the F# code vis a vis.
+The sample template translations try to follow the original C# templates as closely as possible, including some quirks in the bot, e.g., CoreBot checks cities when using LUIS yet, but it doesn't do that when getting towns as a response to a direct question. On the other hand, this allows you to compare the C# code with the F# code vis à vis.
 
 For any of the template samples, get into its folder and type:
 
@@ -44,6 +44,6 @@ Afterward, I manually coded the F# equivalent functions and classes, trying to u
 
 The sample bots in the BotBuilder repo tend to require specific configurations, please check the README.md file in its respective folder.
 
-Originally I used @rspeele [TaskBuilder.fs](https://github.com/rspeele/TaskBuilder.fs) to emulate quickly and easily C# async methods in F# functions, but I am now in the process of migrating to [Ply](https://github.com/crowded/ply).
+Originally I used @rspeele [TaskBuilder.fs](https://github.com/rspeele/TaskBuilder.fs) to emulate quickly and easily C# async methods in F# functions, but now the samples use [Ply](https://github.com/crowded/ply).
 
 Your comments and feedback are welcomed!

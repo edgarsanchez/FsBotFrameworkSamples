@@ -1,7 +1,7 @@
 namespace CardsBot
 
 open System.Runtime.InteropServices
-open FSharp.Control.Tasks.V2.ContextInsensitive
+open FSharp.Control.Tasks
 open Microsoft.Bot.Builder
 open Microsoft.Bot.Builder.Integration.AspNet.Core
 open Microsoft.Bot.Builder.TraceExtensions
@@ -16,9 +16,9 @@ type AdapterWithErrorHandler(configuration, logger, [< Optional; DefaultParamete
             // NOTE: In production environment, you should consider logging this to
             // Azure Application Insights. Visit https://aka.ms/bottelemetry to see how
             // to add telemetry capture to your bot.
-            logger.LogError(exn, sprintf "[OnTurnError] unhandled error: %s" exn.Message)
+            logger.LogError(exn, $"[OnTurnError] unhandled error: {exn.Message}")
 
-            upcast task {
+            unitTask {
                 // Send a message to the user
                 let! _ = turnContext.SendActivityAsync "The bot encountered an error or bug."
                 let! _ = turnContext.SendActivityAsync "To continue to run this bot, please fix the bot source code."
@@ -31,8 +31,8 @@ type AdapterWithErrorHandler(configuration, logger, [< Optional; DefaultParamete
                         do! conversationState.DeleteAsync turnContext
                     with
                     | e ->
-                        logger.LogError (e, sprintf "Exception caught on attempting to Delete ConversationState : %s" e.Message)
+                        logger.LogError(e, $"Exception caught on attempting to Delete ConversationState : {e.Message}")
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
-                return! turnContext.TraceActivityAsync ("OnTurnError Trace", exn.Message, "https://www.botframework.com/schemas/error", "TurnError")
+                return! turnContext.TraceActivityAsync("OnTurnError Trace", exn.Message, "https://www.botframework.com/schemas/error", "TurnError")
             }

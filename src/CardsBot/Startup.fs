@@ -27,17 +27,17 @@ type Startup () =
         // The Dialog that will be run by the bot.
                 .AddSingleton<MainDialog>()
         // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-                .AddTransient<IBot, RichCardsBot> () |> ignore
+                .AddTransient<IBot, RichCardsBot>() |> ignore
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member __.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
-        if env.IsDevelopment () then
-            app.UseDeveloperExceptionPage () |> ignore
+        if env.IsDevelopment() then
+            app.UseDeveloperExceptionPage() |> ignore
 
         app.UseDefaultFiles()
             .UseStaticFiles()
             .UseWebSockets()
             .UseRouting()
             .UseAuthorization()
-            .UseEndpoints (fun endpoints -> endpoints.MapControllers () |> ignore)
+            .UseEndpoints(fun endpoints -> endpoints.MapControllers() |> ignore)
         |> ignore

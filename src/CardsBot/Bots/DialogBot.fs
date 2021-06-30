@@ -1,6 +1,6 @@
 namespace CardsBot.Bots
 
-open FSharp.Control.Tasks.V2.ContextInsensitive
+open FSharp.Control.Tasks
 open Microsoft.Bot.Builder
 open Microsoft.Bot.Builder.Dialogs
 open Microsoft.Extensions.Logging
@@ -11,24 +11,22 @@ open Microsoft.Extensions.Logging
 // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
 // and the requirement is that all BotState objects are saved at the end of a turn.
 type DialogBot<'T when 'T :> Dialog> (conversationState: ConversationState, userState: UserState, dialog: 'T, logger: ILogger<DialogBot<'T>>) =
-    inherit ActivityHandler ()
+    inherit ActivityHandler()
 
     // Quick trick to be able to call base.OnTurnAsync from the overriden __.OnTurnAsync
-    member private __.BaseTurnAsync t c = base.OnTurnAsync (t, c)
+    member private __.BaseTurnAsync t c = base.OnTurnAsync(t, c)
 
     override __.OnTurnAsync (turnContext, cancellationToken) =
         upcast task {
             do! __.BaseTurnAsync turnContext cancellationToken
 
             // Save any state changes that might have occurred during the turn.
-            do! conversationState.SaveChangesAsync (turnContext, false, cancellationToken)
-            do! userState.SaveChangesAsync (turnContext, false, cancellationToken)
+            do! conversationState.SaveChangesAsync(turnContext, false, cancellationToken)
+            do! userState.SaveChangesAsync(turnContext, false, cancellationToken)
         }
 
     override __.OnMessageActivityAsync (turnContext, cancellationToken) =
         logger.LogInformation "Running dialog with Message Activity."
 
-        upcast task {
-            // Run the Dialog with the new message Activity.
-            do! dialog.RunAsync (turnContext, conversationState.CreateProperty (nameof DialogState), cancellationToken)
-        }
+        // Run the Dialog with the new message Activity.
+        unitTask { do! dialog.RunAsync(turnContext, conversationState.CreateProperty(nameof DialogState), cancellationToken) }

@@ -1,12 +1,12 @@
 namespace TeamsConversationBot
 
-open FSharp.Control.Tasks.V2.ContextInsensitive
+open FSharp.Control.Tasks
 open Microsoft.Bot.Builder.Integration.AspNet.Core
 open Microsoft.Bot.Builder.TraceExtensions
 open Microsoft.Extensions.Logging
 
 type AdapterWithErrorHandler(configuration, logger) as __ =
-    inherit BotFrameworkHttpAdapter (configuration, logger)
+    inherit BotFrameworkHttpAdapter(configuration, logger)
 
     do
         __.OnTurnError <- fun turnContext exn -> 
@@ -14,9 +14,9 @@ type AdapterWithErrorHandler(configuration, logger) as __ =
             // NOTE: In production environment, you should consider logging this to
             // Azure Application Insights. Visit https://aka.ms/bottelemetry to see how
             // to add telemetry capture to your bot.
-            logger.LogError(exn, sprintf "Exception caught : %s" exn.Message)
+            logger.LogError(exn, $"Exception caught : {exn.Message}")
 
-            upcast task {
+            unitTask {
                 // Send a catch-all apology to the user.
                 let! _ = turnContext.SendActivityAsync "Sorry, it looks like something went wrong."
 
